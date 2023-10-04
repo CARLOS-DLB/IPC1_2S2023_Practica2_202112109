@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 public class Principal  {
          public static LinkedList<Producto> productos = new LinkedList<>();
+         public static LinkedList<Pedidos> pedidos = new LinkedList<>();
     
          public static void main(String[] args) {
                   Producto producto1 = new Producto("Pizza", "Q50");

@@ -1,11 +1,22 @@
 package GUI;
 import com.mycompany.practica2.Principal;
 import com.mycompany.practica2.Producto;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class PrincipalJFrame extends javax.swing.JFrame {
     Principal principal;
-    private double total = 0.0;
+    
+    // Variables globales
+    double total = 0.0;
+    String vehiculo;
+    int distancia = 0;
+    
     public PrincipalJFrame() {
             initComponents();
             this.setVisible(true); 
@@ -13,6 +24,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             this.setResizable(false); 
             this.setTitle("Delivery David");
             this.agregarProductos();
+            
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -22,18 +34,18 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         PedidosTabla = new javax.swing.JTable();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        confirmarButton = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        AgregarBoton = new javax.swing.JToggleButton();
+        AgregarButton = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ProductosTabla = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        vehiculoBox = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        distanciaText = new javax.swing.JTextField();
         totalLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -44,10 +56,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jToggleButton5 = new javax.swing.JToggleButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        HistorialTabla = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,9 +92,14 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(PedidosTabla);
 
-        jToggleButton2.setBackground(new java.awt.Color(102, 102, 102));
-        jToggleButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton2.setText("Confirmar Pedido");
+        confirmarButton.setBackground(new java.awt.Color(102, 102, 102));
+        confirmarButton.setForeground(new java.awt.Color(255, 255, 255));
+        confirmarButton.setText("Confirmar Pedido");
+        confirmarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmarButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Mi Pedido");
@@ -87,12 +107,12 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Productos");
 
-        AgregarBoton.setBackground(new java.awt.Color(102, 102, 102));
-        AgregarBoton.setForeground(new java.awt.Color(255, 255, 255));
-        AgregarBoton.setText("Agregar");
-        AgregarBoton.addActionListener(new java.awt.event.ActionListener() {
+        AgregarButton.setBackground(new java.awt.Color(102, 102, 102));
+        AgregarButton.setForeground(new java.awt.Color(255, 255, 255));
+        AgregarButton.setText("Agregar");
+        AgregarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AgregarBotonActionPerformed(evt);
+                AgregarButtonActionPerformed(evt);
             }
         });
 
@@ -124,9 +144,14 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Vehículo:");
 
-        jComboBox1.setBackground(new java.awt.Color(102, 102, 102));
-        jComboBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Motocicleta 1", "Motocicleta 2", "Motocicleta 3", " " }));
+        vehiculoBox.setBackground(new java.awt.Color(102, 102, 102));
+        vehiculoBox.setForeground(new java.awt.Color(255, 255, 255));
+        vehiculoBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Motocicleta 1", "Motocicleta 2", "Motocicleta 3", " " }));
+        vehiculoBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vehiculoBoxActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Km");
 
@@ -136,8 +161,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Total:");
 
-        jTextField1.setBackground(new java.awt.Color(102, 102, 102));
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
+        distanciaText.setBackground(new java.awt.Color(102, 102, 102));
+        distanciaText.setForeground(new java.awt.Color(255, 255, 255));
+        distanciaText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                distanciaTextActionPerformed(evt);
+            }
+        });
 
         totalLabel.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -156,18 +186,18 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(AgregarBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(AgregarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel4)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                                                .addComponent(distanciaText, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel3)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(vehiculoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel5)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
@@ -183,7 +213,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                                     .addComponent(totalLabel)
                                     .addGap(30, 30, 30))
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(confirmarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -199,21 +229,21 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(AgregarBoton)
+                    .addComponent(AgregarButton)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
                         .addComponent(totalLabel)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(vehiculoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(distanciaText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButton2)
+                .addComponent(confirmarButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -248,6 +278,12 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Motocicleta 1 ");
 
+        jLabel12.setText("Distancia:");
+
+        jLabel13.setText("Distancia:");
+
+        jLabel14.setText("Distancia:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -266,7 +302,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jToggleButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(203, 203, 203)
                         .addComponent(jLabel9)))
@@ -281,15 +320,21 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton3)
-                .addGap(69, 69, 69)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel12)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton4)
-                .addGap(73, 73, 73)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel13)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jToggleButton6)
                 .addContainerGap())
         );
@@ -302,7 +347,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Historial De Pedidos");
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        HistorialTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -331,7 +376,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(HistorialTabla);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -352,7 +397,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -372,7 +417,40 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AgregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarBotonActionPerformed
+    private void agregarProductos() {
+        DefaultTableModel modeloProductos = new DefaultTableModel();
+        modeloProductos.addColumn("Producto");
+        modeloProductos.addColumn("Precio");
+
+        for (Producto producto : this.principal.productos) {
+                 Object[] fila = {producto.nombre, producto.precio};
+                 modeloProductos.addRow(fila);
+        }
+        ProductosTabla.setModel(modeloProductos);
+    }
+    private String fechaYHoraPedido() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+    private String fechaYHoraEntrega(String horaActual) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date fechaActual = null;
+    try {
+        fechaActual = dateFormat.parse(horaActual);
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
+    
+    Random random = new Random();
+    int minutosAleatorios = random.nextInt(31); 
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(fechaActual);
+    calendar.add(Calendar.MINUTE, minutosAleatorios);
+    
+    return dateFormat.format(calendar.getTime());
+}
+    private void AgregarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarButtonActionPerformed
         int selectedRowCount = ProductosTabla.getSelectedRowCount();
         if (selectedRowCount != 1) {
                  return;
@@ -386,21 +464,45 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         pedidoModel.insertRow(0, new Object[]{producto, precio});
         
+        // Total dinamico
         total += Double.parseDouble(precio.toString().substring(1)); 
         totalLabel.setText("Q" + String.format("%.2f", total));
-    }//GEN-LAST:event_AgregarBotonActionPerformed
-    
-    private void agregarProductos() {
-        DefaultTableModel modeloProductos = new DefaultTableModel();
-        modeloProductos.addColumn("Producto");
-        modeloProductos.addColumn("Precio");
+    }//GEN-LAST:event_AgregarButtonActionPerformed
+    private void vehiculoBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vehiculoBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_vehiculoBoxActionPerformed
+    private void distanciaTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_distanciaTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_distanciaTextActionPerformed
+    private void confirmarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarButtonActionPerformed
+        vehiculo = vehiculoBox.getSelectedItem().toString();
+        distancia = Integer.parseInt(distanciaText.getText());
 
-        for (Producto producto : this.principal.productos) {
-                 Object[] fila = {producto.nombre, producto.precio};
-                 modeloProductos.addRow(fila);
+        if (distancia <= 10 && distancia > 0) {
+            DefaultTableModel pedidosModel = (DefaultTableModel) PedidosTabla.getModel();
+            int rowCount = pedidosModel.getRowCount();
+
+            if (rowCount > 0) {
+                  String horaActual = fechaYHoraPedido();
+                  String horaEntrega = fechaYHoraEntrega(horaActual);
+                
+                // Crear una fila con los datos del pedido
+                Object[] pedido = {vehiculo, distancia + " Km", "Q" + total, horaActual, horaEntrega};
+                DefaultTableModel historialModel = (DefaultTableModel) HistorialTabla.getModel();
+                historialModel.insertRow(0, pedido);
+                
+                pedidosModel.setRowCount(0);
+                vehiculoBox.setSelectedIndex(0);
+                distanciaText.setText("");
+                total = 0.0;
+                totalLabel.setText("Q0.00");
+            } else {
+                JOptionPane.showMessageDialog(this, "No ha agregado ningún producto al pedido.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Ingrese una distancia entre 0 y 10.", "Alerta", JOptionPane.WARNING_MESSAGE);
         }
-        ProductosTabla.setModel(modeloProductos);
-    }
+    }//GEN-LAST:event_confirmarButtonActionPerformed
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -436,13 +538,18 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton AgregarBoton;
+    private javax.swing.JToggleButton AgregarButton;
+    private javax.swing.JTable HistorialTabla;
     private javax.swing.JTable PedidosTabla;
     private javax.swing.JTable ProductosTabla;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JToggleButton confirmarButton;
+    private javax.swing.JTextField distanciaText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -458,13 +565,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JToggleButton jToggleButton4;
     private javax.swing.JToggleButton jToggleButton5;
     private javax.swing.JToggleButton jToggleButton6;
     private javax.swing.JLabel totalLabel;
+    private javax.swing.JComboBox<String> vehiculoBox;
     // End of variables declaration//GEN-END:variables
 }
