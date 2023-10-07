@@ -1,21 +1,30 @@
 package GUI;
+import com.mycompany.practica2.MovimientoMotocicleta;
 import com.mycompany.practica2.Principal;
 import com.mycompany.practica2.Producto;
+import java.awt.Image;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class PrincipalJFrame extends javax.swing.JFrame {
     Principal principal;
+    private MovimientoMotocicleta movimientoMotocicleta1;
+    private MovimientoMotocicleta movimientoMotocicleta2;
+    private MovimientoMotocicleta movimientoMotocicleta3;
     
     // Variables globales
     double total = 0.0;
     String vehiculo;
     int distancia = 0;
+    String rutaImagenDE = "C:/Users/deleo/OneDrive/Documents/NetBeansProjects/Practica2/Icons/deliveryDE.jpg";
+    String rutaImagenIZ = "C:/Users/deleo/OneDrive/Documents/NetBeansProjects/Practica2/Icons/deliveryIZ.jpg";
+    ImageIcon iconoDerecha;
     
     public PrincipalJFrame() {
             initComponents();
@@ -25,6 +34,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             this.setTitle("Delivery David");
             this.agregarProductos();
             
+            
+            ImageIcon derecha = new ImageIcon(rutaImagenDE);
+            iconoDerecha = new ImageIcon(derecha.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -50,15 +62,18 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jToggleButton6 = new javax.swing.JToggleButton();
-        jToggleButton4 = new javax.swing.JToggleButton();
-        jToggleButton5 = new javax.swing.JToggleButton();
+        enviarM1Button = new javax.swing.JToggleButton();
+        enviarTodosButton = new javax.swing.JToggleButton();
+        enviarM2Button = new javax.swing.JToggleButton();
+        enviarM3Button = new javax.swing.JToggleButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        DistanciaM1Label = new javax.swing.JLabel();
+        DistanciaM2Label = new javax.swing.JLabel();
+        DistanciaM3Label = new javax.swing.JLabel();
+        M3Label = new javax.swing.JLabel();
+        M1Label = new javax.swing.JLabel();
+        M2Label = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -257,19 +272,39 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Motocicleta 3");
 
-        jToggleButton3.setBackground(new java.awt.Color(102, 102, 102));
-        jToggleButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton3.setText("Enviar");
+        enviarM1Button.setBackground(new java.awt.Color(102, 102, 102));
+        enviarM1Button.setForeground(new java.awt.Color(255, 255, 255));
+        enviarM1Button.setText("Enviar");
+        enviarM1Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarM1ButtonActionPerformed(evt);
+            }
+        });
 
-        jToggleButton6.setText("Enviar Todos");
+        enviarTodosButton.setText("Enviar Todos");
+        enviarTodosButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarTodosButtonActionPerformed(evt);
+            }
+        });
 
-        jToggleButton4.setBackground(new java.awt.Color(102, 102, 102));
-        jToggleButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton4.setText("Enviar");
+        enviarM2Button.setBackground(new java.awt.Color(102, 102, 102));
+        enviarM2Button.setForeground(new java.awt.Color(255, 255, 255));
+        enviarM2Button.setText("Enviar");
+        enviarM2Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarM2ButtonActionPerformed(evt);
+            }
+        });
 
-        jToggleButton5.setBackground(new java.awt.Color(102, 102, 102));
-        jToggleButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jToggleButton5.setText("Enviar");
+        enviarM3Button.setBackground(new java.awt.Color(102, 102, 102));
+        enviarM3Button.setForeground(new java.awt.Color(255, 255, 255));
+        enviarM3Button.setText("Enviar");
+        enviarM3Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enviarM3ButtonActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -278,64 +313,84 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Motocicleta 1 ");
 
-        jLabel12.setText("Distancia:");
+        DistanciaM1Label.setForeground(new java.awt.Color(255, 255, 255));
+        DistanciaM1Label.setText("Distancia:");
 
-        jLabel13.setText("Distancia:");
+        DistanciaM2Label.setForeground(new java.awt.Color(255, 255, 255));
+        DistanciaM2Label.setText("Distancia:");
 
-        jLabel14.setText("Distancia:");
+        DistanciaM3Label.setForeground(new java.awt.Color(255, 255, 255));
+        DistanciaM3Label.setText("Distancia:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addComponent(enviarTodosButton, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 43, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(enviarM1Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(DistanciaM1Label)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(enviarM2Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(DistanciaM2Label)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jToggleButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(enviarM3Button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(203, 203, 203)
-                        .addComponent(jLabel9)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                            .addComponent(DistanciaM3Label))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(M1Label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(M2Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(M3Label, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(236, 236, 236)
+                .addComponent(jLabel9)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(14, 14, 14)
                 .addComponent(jLabel9)
-                .addGap(40, 40, 40)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel12)
-                .addGap(41, 41, 41)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(enviarM1Button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(DistanciaM1Label))
+                    .addComponent(M1Label, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(enviarM2Button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(DistanciaM2Label))
+                    .addComponent(M2Label, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(jToggleButton6)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(enviarM3Button)
+                        .addGap(18, 18, 18)
+                        .addComponent(DistanciaM3Label))
+                    .addComponent(M3Label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(44, 44, 44)
+                .addComponent(enviarTodosButton)
                 .addContainerGap())
         );
 
@@ -397,7 +452,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -407,7 +462,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,6 +551,15 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 distanciaText.setText("");
                 total = 0.0;
                 totalLabel.setText("Q0.00");
+                
+                if (vehiculo.equals("Motocicleta 1")) {
+                DistanciaM1Label.setText("Distancia: " + distancia + " Km");
+                } else if (vehiculo.equals("Motocicleta 2")) {
+                DistanciaM2Label.setText("Distancia: " + distancia + " Km");
+                } else if (vehiculo.equals("Motocicleta 3")) {
+                DistanciaM3Label.setText("Distancia: " + distancia + " Km");
+                }
+                
             } else {
                 JOptionPane.showMessageDialog(this, "No ha agregado ningún producto al pedido.", "Alerta", JOptionPane.WARNING_MESSAGE);
             }
@@ -503,6 +567,39 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Ingrese una distancia entre 0 y 10.", "Alerta", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_confirmarButtonActionPerformed
+
+    private void enviarM1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarM1ButtonActionPerformed
+        M1Label.setIcon(iconoDerecha);        
+        movimientoMotocicleta1 = new MovimientoMotocicleta(M1Label, rutaImagenDE, rutaImagenIZ);
+        movimientoMotocicleta1.start();
+    }//GEN-LAST:event_enviarM1ButtonActionPerformed
+
+    private void enviarM2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarM2ButtonActionPerformed
+        M2Label.setIcon(iconoDerecha);
+        
+        movimientoMotocicleta2 = new MovimientoMotocicleta(M2Label, rutaImagenDE, rutaImagenIZ);
+        movimientoMotocicleta2.start();
+    }//GEN-LAST:event_enviarM2ButtonActionPerformed
+
+    private void enviarM3ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarM3ButtonActionPerformed
+        M3Label.setIcon(iconoDerecha);
+        
+        movimientoMotocicleta3 = new MovimientoMotocicleta(M3Label, rutaImagenDE, rutaImagenIZ);
+        movimientoMotocicleta3.start();
+    }//GEN-LAST:event_enviarM3ButtonActionPerformed
+
+    private void enviarTodosButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarTodosButtonActionPerformed
+        M1Label.setIcon(iconoDerecha);
+        M2Label.setIcon(iconoDerecha);
+        M3Label.setIcon(iconoDerecha);
+        
+        movimientoMotocicleta1 = new MovimientoMotocicleta(M1Label, rutaImagenDE, rutaImagenIZ);
+        movimientoMotocicleta1.start();
+        movimientoMotocicleta2 = new MovimientoMotocicleta(M2Label, rutaImagenDE, rutaImagenIZ);
+        movimientoMotocicleta2.start();
+        movimientoMotocicleta3 = new MovimientoMotocicleta(M3Label, rutaImagenDE, rutaImagenIZ);
+        movimientoMotocicleta3.start();
+    }//GEN-LAST:event_enviarTodosButtonActionPerformed
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -539,17 +636,24 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton AgregarButton;
+    private javax.swing.JLabel DistanciaM1Label;
+    private javax.swing.JLabel DistanciaM2Label;
+    private javax.swing.JLabel DistanciaM3Label;
     private javax.swing.JTable HistorialTabla;
+    private javax.swing.JLabel M1Label;
+    private javax.swing.JLabel M2Label;
+    private javax.swing.JLabel M3Label;
     private javax.swing.JTable PedidosTabla;
     private javax.swing.JTable ProductosTabla;
     private javax.swing.JToggleButton confirmarButton;
     private javax.swing.JTextField distanciaText;
+    private javax.swing.JToggleButton enviarM1Button;
+    private javax.swing.JToggleButton enviarM2Button;
+    private javax.swing.JToggleButton enviarM3Button;
+    private javax.swing.JToggleButton enviarTodosButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -565,10 +669,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
-    private javax.swing.JToggleButton jToggleButton5;
-    private javax.swing.JToggleButton jToggleButton6;
     private javax.swing.JLabel totalLabel;
     private javax.swing.JComboBox<String> vehiculoBox;
     // End of variables declaration//GEN-END:variables
