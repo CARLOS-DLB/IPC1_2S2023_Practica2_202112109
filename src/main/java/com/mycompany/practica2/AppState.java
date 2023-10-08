@@ -10,7 +10,6 @@ import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
 
 public class AppState {
          public static LinkedList<Producto> productos = new LinkedList<>();
@@ -47,15 +46,6 @@ public class AppState {
                             FileInputStream fis = new FileInputStream(rutaHistorialSerializado);
                             ObjectInputStream ois = new ObjectInputStream(fis);
                             historial = (LinkedList<Historial>) ois.readObject();
-                            
-                             for (Historial pedido : historial) {
-                                System.out.println("Pedido agregado - Vehículo: " + pedido.vehiculo +
-                               ", Distancia: " + pedido.distancia + " Km" +
-                               ", Total: Q" + pedido.total +
-                               ", Hora de Inicio: " + pedido.horaInicio +
-                               ", Hora de Entrega: " + pedido.horaEntrega);
-                            }   
-
             } catch (FileNotFoundException ex) {
                    Logger.getLogger(AppState.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

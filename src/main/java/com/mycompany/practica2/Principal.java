@@ -1,7 +1,6 @@
 package com.mycompany.practica2;
 
 import GUI.PrincipalJFrame;
-import static com.mycompany.practica2.AppState.productos;
 import java.util.LinkedList;
 
 public class Principal  {
@@ -18,9 +17,9 @@ public class Principal  {
                   Producto producto5 = new Producto("Hamburguesas", "Q30"); 
                   Producto producto6 = new Producto("Lasania", "Q40"); 
                   Producto producto7 = new Producto("Spaguetti", "Q35"); 
-                  Producto producto8 = new Producto("Ensalada", "Q20"); 
-                  Producto producto9 = new Producto("Hilachas", "Q15"); 
-                  Producto producto10 = new Producto("Atol", "Q3"); 
+//                  Producto producto8 = new Producto("Ensalada", "Q20"); 
+//                  Producto producto9 = new Producto("Hilachas", "Q15"); 
+//                  Producto producto10 = new Producto("Atol", "Q3"); 
                   productos.add(producto1);
                   productos.add(producto2);
                   productos.add(producto3);
@@ -28,11 +27,15 @@ public class Principal  {
                   productos.add(producto5);
                   productos.add(producto6);
                   productos.add(producto7);
-                  productos.add(producto8);
-                  productos.add(producto9);
-                  productos.add(producto10);
+//                  productos.add(producto8);
+//                  productos.add(producto9);
+//                  productos.add(producto10);
                   
                   PrincipalJFrame main = new PrincipalJFrame();
+    }
+
+    public void add(Producto nuevoProducto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
