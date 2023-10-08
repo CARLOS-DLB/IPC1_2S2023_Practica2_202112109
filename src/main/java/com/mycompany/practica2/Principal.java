@@ -1,13 +1,16 @@
 package com.mycompany.practica2;
 
 import GUI.PrincipalJFrame;
+import static com.mycompany.practica2.AppState.productos;
 import java.util.LinkedList;
 
 public class Principal  {
          public static LinkedList<Producto> productos = new LinkedList<>();
-//         public static LinkedList<Pedidos> pedidos = new LinkedList<>();
+         public static LinkedList<Pedidos> pedidos = new LinkedList<>();
+//         public static LinkedList<Historial> hIstorial = new LinkedList<>();
     
          public static void main(String[] args) {
+                  AppState.deserializar();
                   Producto producto1 = new Producto("Pizza", "Q50");
                   Producto producto2 = new Producto("Tacos", "Q15");
                   Producto producto3 = new Producto("Gringas", "Q20");

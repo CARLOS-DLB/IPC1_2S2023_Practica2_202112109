@@ -1,6 +1,8 @@
 package com.mycompany.practica2;
 
-public class Producto {
+import java.io.Serializable;
+
+public class Producto implements Serializable{
         public String nombre;
         public String precio;
     

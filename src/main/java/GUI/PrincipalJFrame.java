@@ -1,8 +1,12 @@
 package GUI;
+import com.mycompany.practica2.AppState;
+import com.mycompany.practica2.Historial;
 import com.mycompany.practica2.MovimientoMotocicleta;
 import com.mycompany.practica2.Principal;
 import com.mycompany.practica2.Producto;
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,6 +14,7 @@ import java.util.Date;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 public class PrincipalJFrame extends javax.swing.JFrame {
@@ -33,8 +38,16 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             this.setResizable(false); 
             this.setTitle("Delivery David");
             this.agregarProductos();
+            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            HistorialTabla.revalidate();
             
-            
+            this.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                    AppState.serializar();
+           }
+       });
+           cargarDatosEnTablaHistorial(); 
             ImageIcon derecha = new ImageIcon(rutaImagenDE);
             iconoDerecha = new ImageIcon(derecha.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
     }
@@ -462,7 +475,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -471,7 +484,16 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void cargarDatosEnTablaHistorial() {
+        DefaultTableModel historialModel = (DefaultTableModel) HistorialTabla.getModel();
+        historialModel.setRowCount(0); // Limpiar la tabla
 
+        for (Historial pedido : AppState.historial) {
+            Object[] fila = {pedido.vehiculo, pedido.distancia + " Km", "Q" + pedido.total, pedido.horaInicio, pedido.horaEntrega};
+            historialModel.addRow(fila);
+        }
+        HistorialTabla.revalidate();
+    }
     private void agregarProductos() {
         DefaultTableModel modeloProductos = new DefaultTableModel();
         modeloProductos.addColumn("Producto");
@@ -541,11 +563,21 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                   String horaActual = fechaYHoraPedido();
                   String horaEntrega = fechaYHoraEntrega(horaActual);
                 
-                // Crear una fila con los datos del pedido
+                  Historial historiales = new Historial(vehiculo, distancia, total, horaActual, horaEntrega);
+                  AppState.historial.push(historiales);
+                  AppState.serializar();
+                
                 Object[] pedido = {vehiculo, distancia + " Km", "Q" + total, horaActual, horaEntrega};
                 DefaultTableModel historialModel = (DefaultTableModel) HistorialTabla.getModel();
                 historialModel.insertRow(0, pedido);
                 
+                  
+//                  System.out.println("Pedido agregado - Vehículo: " + historiales.vehiculo +
+//                   ", Distancia: " + historiales.distancia + " Km" +
+//                   ", Total: Q" + historiales.total +
+//                   ", Hora de Inicio: " + historiales.horaInicio +
+//                   ", Hora de Entrega: " + historiales.horaEntrega);
+
                 pedidosModel.setRowCount(0);
                 vehiculoBox.setSelectedIndex(0);
                 distanciaText.setText("");
@@ -559,13 +591,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 } else if (vehiculo.equals("Motocicleta 3")) {
                 DistanciaM3Label.setText("Distancia: " + distancia + " Km");
                 }
-                
             } else {
                 JOptionPane.showMessageDialog(this, "No ha agregado ningún producto al pedido.", "Alerta", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Ingrese una distancia entre 0 y 10.", "Alerta", JOptionPane.WARNING_MESSAGE);
         }
+                  HistorialTabla.revalidate();
     }//GEN-LAST:event_confirmarButtonActionPerformed
 
     private void enviarM1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enviarM1ButtonActionPerformed
@@ -639,7 +671,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel DistanciaM1Label;
     private javax.swing.JLabel DistanciaM2Label;
     private javax.swing.JLabel DistanciaM3Label;
-    private javax.swing.JTable HistorialTabla;
+    public javax.swing.JTable HistorialTabla;
     private javax.swing.JLabel M1Label;
     private javax.swing.JLabel M2Label;
     private javax.swing.JLabel M3Label;
